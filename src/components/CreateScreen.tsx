@@ -118,13 +118,12 @@ const CreateScreen = () => {
                 <div className="w-40 h-40 mx-auto bg-gradient-to-br from-amber-400 via-orange-500 to-red-600 rounded-2xl p-3 shadow-2xl">
                   <div className="w-full h-full rounded-xl overflow-hidden bg-gradient-to-br from-green-400 to-blue-500 p-2">
                     <img
-                      src="/src/assets/20e4f123ebc03fde1ee774b148fb07f97eb630a0.png"
+                      src="/pixel-dog.png"
                       alt="Pixel Pet"
                       className="w-full h-full rounded-lg object-contain"
                       style={{ imageRendering: "pixelated" }}
                       onError={(e) => {
                         console.log("Image failed to load");
-                        // 이미지 로드 실패시 대체 표시
                         e.currentTarget.style.display = "none";
                       }}
                     />
