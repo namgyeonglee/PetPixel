@@ -1,10 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Camera, Upload, Loader2, RefreshCw } from "lucide-react";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 import { Card, CardContent } from "./ui/card";
 import { Progress } from "./ui/progress";
 import { ImageWithFallback } from "./figma/ImageWithFallback";
+import EnhancedCanvasConfetti from "./EnhancedCanvasConfetti";
 
 type CreationState = "upload" | "processing" | "result";
 
@@ -13,6 +14,7 @@ const CreateScreen = () => {
   const [progress, setProgress] = useState(0);
   const [petName, setPetName] = useState("");
   const [detectedBreed, setDetectedBreed] = useState("Golden Retriever Mix");
+  const [showConfetti, setShowConfetti] = useState(false);
 
   const handleUpload = () => {
     setState("processing");
@@ -25,6 +27,8 @@ const CreateScreen = () => {
           clearInterval(interval);
           setState("result");
           setDetectedBreed("Golden Retriever Mix");
+          // 펫 생성 완료 시 콘페티 애니메이션 시작
+          setShowConfetti(true);
           return 100;
         }
         return prev + 2;
@@ -35,12 +39,15 @@ const CreateScreen = () => {
   const handleRegenerate = () => {
     setState("processing");
     setProgress(0);
+    setShowConfetti(false); // 기존 콘페티 중지
 
     const interval = setInterval(() => {
       setProgress((prev) => {
         if (prev >= 100) {
           clearInterval(interval);
           setState("result");
+          // 재생성 시에도 콘페티 표시
+          setShowConfetti(true);
           return 100;
         }
         return prev + 3;
@@ -49,14 +56,32 @@ const CreateScreen = () => {
   };
 
   const handleSave = () => {
+    setShowConfetti(false);
     // Reset to upload state after saving
     setState("upload");
     setPetName("");
     setProgress(0);
   };
 
+  // 콘페티 자동 종료
+  useEffect(() => {
+    if (showConfetti) {
+      const timer = setTimeout(() => {
+        setShowConfetti(false);
+      }, 3000); // 3초 후 자동 종료
+
+      return () => clearTimeout(timer);
+    }
+  }, [showConfetti]);
+
   return (
     <div className="flex flex-col min-h-full p-4 space-y-6">
+      {/* 미니멀하고 귀여운 축하 애니메이션 */}
+      <EnhancedCanvasConfetti
+        show={showConfetti}
+        duration={3000}
+        style="raycast"
+      />
       {/* Header */}
       <div className="flex items-center space-x-3 pt-4">
         <Camera size={24} className="text-primary" />
