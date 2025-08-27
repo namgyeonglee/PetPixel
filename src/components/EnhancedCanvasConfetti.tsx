@@ -27,34 +27,40 @@ const EnhancedCanvasConfetti: React.FC<EnhancedCanvasConfettiProps> = ({
     ];
 
     if (style === "raycast") {
-      // Raycast 스타일: 양쪽 사이드 캐논
-      const end = Date.now() + duration / 3; // 전체 시간의 1/3만 뿌림
+      // Raycast 스타일: 정말 끝자락에서 빵파레처럼 터지기
+      const end = Date.now() + duration / 4;
 
       const frame = () => {
-        // 왼쪽 대포
+        // 완전 왼쪽 끝에서 빵파레 (세모 + 네모)
         confetti({
-          particleCount: 5,
-          angle: 60,
-          spread: 35, // 덜 퍼짐 (기본값: 55)
-          origin: { x: 0 },
+          particleCount: 20,
+          angle: 70,
+          spread: 100,
+          origin: { x: 0, y: 1 },
           colors: colors,
-          gravity: 2, // 빨리 떨어짐 (기본값: 1)
-          startVelocity: 25, // 덜 날아감 (기본값: 45)
-          ticks: 120, // 빨리 사라짐 (기본값: 200)
-          drift: 0.1, // 덜 흘러감
+          gravity: 1,
+          startVelocity: 70,
+          ticks: 200,
+          drift: 0.3,
+          scalar: 1.4,
+          shapes: ["square", "triangle"], // 네모와 세모!
+          flat: false, // 3D 효과
         });
 
-        // 오른쪽 대포
+        // 완전 오른쪽 끝에서 빵파레 (세모 + 네모)
         confetti({
-          particleCount: 5,
-          angle: 120,
-          spread: 35, // 덜 퍼짐 (기본값: 55)
-          origin: { x: 1 },
+          particleCount: 20,
+          angle: 110,
+          spread: 100,
+          origin: { x: 1, y: 1 },
           colors: colors,
-          gravity: 2, // 빨리 떨어짐 (기본값: 1)
-          startVelocity: 25, // 덜 날아감 (기본값: 45)
-          ticks: 120, // 빨리 사라짐 (기본값: 200)
-          drift: -0.1, // 덜 흘러감
+          gravity: 1,
+          startVelocity: 70,
+          ticks: 200,
+          drift: -0.3,
+          scalar: 1.4,
+          shapes: ["square", "triangle"], // 네모와 세모!
+          flat: false, // 3D 효과
         });
 
         if (Date.now() < end) {
